@@ -47,8 +47,6 @@ async function reload_window_list() {
         summary.textContent = win.title + (win.focused ? " (Active)" : "");
         win_el.appendChild(summary);
 
-        let html = "";
-
         let host_tabs = {};
         for (let tab of win.tabs) {
             let host = (new URL(tab.url)).host || "other";
@@ -64,23 +62,30 @@ async function reload_window_list() {
 
         console.log(host_tabs);
 
-        for(let [host, tabs] of Object.entries(host_tabs).sort((a, b) => a[1].length < b[1].length)) {
+        for (let [host, tabs] of Object.entries(host_tabs).sort((a, b) => a[1].length < b[1].length)) {
+            let parent_el;
             if (tabs.length > 1) {
-                html += "<details><summary>" + host + " (" + tabs.length + ")"+ "</summary>";
+                parent_el = document.createElement("details");
+                let summary = document.createElement("summary");
+                summary.textContent = host + " (" + tabs.length + ")";
+                parent_el.appendChild(summary);
+                win_el.appendChild(parent_el);
+            } else {
+                parent_el = win_el;
             }
             for (let tab of tabs) {
-                html += "<div id='tab-" + tab.id + " class='tab''>";
+                let div = document.createElement("div");
+                div.id = "tab-" + tab.id;
+                div.classList.add("tab");
                 if (tab.favIconUrl) {
-                    html += "<img src='" + tab.favIconUrl + "' width='16' height='16'>";
+                    let img = new Image(16, 16);
+                    img.src = tab.favIconUrl;
+                    div.appendChild(img);
                 }
-                html += tab.url;
-                html += "</div>";
-            }
-            if (tabs.length > 1) {
-                html += "</details>";
+                div.innerHTML += tab.url;
+                parent_el.appendChild(div);
             }
         }
-        win_el.innerHTML += html;
     });
 }
 
