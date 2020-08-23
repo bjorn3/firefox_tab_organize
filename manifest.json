@@ -1,0 +1,20 @@
+{
+
+  "manifest_version": 2,
+  "name": "Organize tabs",
+  "version": "0.1",
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "organize_tabs@bjorn3.github.io"
+    }
+  },
+
+	"permissions": ["tabs"],
+
+  "browser_action": {
+    "default_icon": "icons/action.png",
+		"default_title": "Organize tabs",
+		"default_popup": "popup/action.html"
+  }
+}

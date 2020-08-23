@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <style>
+        details > details {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 2px;
+        }
+    </style>
+</head>
+<body>
+    <button id="reload">Reload</button>
+    <button id="hide">Hide</button>
+
+    <code><pre id="messages"></pre></code>
+    <button id="discard">Discard all tabs</button><br>
+    <button id="load_zulip">Load all zulip tabs</button><br>
+
+    <div id="windows"></div>
+    <script src="action.js"></script>
+</body>
+</html>
