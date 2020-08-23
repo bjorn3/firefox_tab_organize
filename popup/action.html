@@ -8,15 +8,46 @@
             border-collapse: collapse;
             padding: 2px;
         }
+
+        details > summary > div {
+            display: inline-flex;
+            width: calc(100% - 18px);
+        }
+
+        div:nth-child(2n).tab {
+            background: gray;
+        }
+
+        .tab {
+            display: flex;
+            padding: 5px 0px;
+            max-width: 100vw;
+            overflow-wrap: anywhere;
+        }
+
+        .spacer {
+            flex-grow: 1;
+        }
+
+        body > button {
+            min-width: 150px;
+        }
+
+        button {
+            min-width: 80px;
+            margin-left: 5px;
+        }
     </style>
 </head>
 <body>
     <button id="reload">Reload</button>
     <button id="hide">Hide</button>
+    <br>
 
     <code><pre id="messages"></pre></code>
-    <button id="discard">Discard all tabs</button><br>
-    <button id="load_zulip">Load all zulip tabs</button><br>
+    <button id="discard">Discard all tabs</button>
+    <button id="load_zulip">Load all zulip tabs</button>
+    <br>
 
     <div id="windows">
         <h2>Windows</h2>

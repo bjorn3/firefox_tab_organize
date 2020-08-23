@@ -66,24 +66,67 @@ async function reload_window_list() {
             let parent_el;
             if (tabs.length > 1) {
                 parent_el = document.createElement("details");
-                let summary = document.createElement("summary");
-                summary.textContent = host + " (" + tabs.length + ")";
-                parent_el.appendChild(summary);
                 win_el.appendChild(parent_el);
+                let summary = document.createElement("summary");
+                parent_el.appendChild(summary);
+
+                let summary_inner = document.createElement("div");
+                summary.appendChild(summary_inner);
+                summary_inner.textContent = host + " (" + tabs.length + ")";
+
+                let spacer = document.createElement("div");
+                summary_inner.appendChild(spacer);
+                spacer.classList.add("spacer");
+
+                let discard_button = document.createElement("button");
+                summary_inner.appendChild(discard_button);
+                discard_button.textContent = "Discard";
+                discard_button.onclick = event_handler(function () {
+                    return window.browser.tabs.discard(tabs.map((tab) => tab.id));
+                });
+
+                let reload_button = document.createElement("button");
+                summary_inner.appendChild(reload_button);
+                reload_button.textContent = "Reload";
+                reload_button.onclick = event_handler(function () {
+                    return Promise.all(tabs.map((tab) => window.browser.tabs.reload(tab.id)));
+                });
+
             } else {
                 parent_el = win_el;
             }
             for (let tab of tabs) {
                 let div = document.createElement("div");
+                parent_el.appendChild(div);
                 div.id = "tab-" + tab.id;
                 div.classList.add("tab");
+
                 if (tab.favIconUrl) {
                     let img = new Image(16, 16);
-                    img.src = tab.favIconUrl;
                     div.appendChild(img);
+                    img.src = tab.favIconUrl;
                 }
+
                 div.innerHTML += tab.url;
-                parent_el.appendChild(div);
+
+                let spacer = document.createElement("div");
+                div.appendChild(spacer);
+                spacer.classList.add("spacer");
+
+                let discard_button = document.createElement("button");
+                div.appendChild(discard_button);
+                discard_button.textContent = "Discard";
+                discard_button.onclick = event_handler(function () {
+                    return window.browser.tabs.discard(tab.id);
+                });
+
+                let reload_button = document.createElement("button");
+                div.appendChild(reload_button);
+                reload_button.textContent = "Reload";
+                reload_button.onclick = event_handler(function () {
+                    return window.browser.tabs.discard(tab.id);
+                });
+
             }
         }
     });
