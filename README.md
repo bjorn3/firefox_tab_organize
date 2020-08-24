@@ -15,3 +15,5 @@ can't be permanently installed unless you are on ESR or nightly and explicitly e
 * List all tabs grouped by hostname.
 * Discard and reload all tabs for a given hostname.
 * Move tabs to the begin and end of a window.
+* Directly close single tabs from the list of tabs. (As precaution you can't close all tabs for a
+  single hostname at the same time.)

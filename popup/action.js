@@ -4,6 +4,9 @@ reload_window_list();
 window.browser.windows.onCreated.addListener(event_handler(reload_window_list));
 window.browser.windows.onRemoved.addListener(event_handler(reload_window_list));
 window.browser.windows.onFocusChanged.addListener(event_handler(reload_window_list));
+window.browser.tabs.onCreated.addListener(event_handler(reload_window_list));
+window.browser.tabs.onRemoved.addListener(event_handler(reload_window_list));
+window.browser.tabs.onUpdated.addListener(event_handler(reload_window_list));
 
 function event_handler(handler) {
     return function () {
@@ -42,7 +45,7 @@ function Button(title, icon, handler) {
 }
 
 function TabActions(tabs) {
-    return [
+    let actions = [
         h("div", { class: "spacer" }),
         Button("Discard", "snowflake", event_handler(function () {
             return window.browser.tabs.discard(tabs.map((tab) => tab.id));
@@ -57,6 +60,12 @@ function TabActions(tabs) {
             return window.browser.tabs.move(tabs.map((tab) => tab.id), { index: -1 })
         })),
     ];
+    if (tabs.length == 1) {
+        actions.push(Button("Close", "times", event_handler(function() {
+            return window.browser.tabs.remove(tabs[0].id);
+        })));
+    }
+    return actions;
 }
 
 function Window(win) {
