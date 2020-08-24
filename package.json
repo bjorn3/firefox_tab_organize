@@ -1,0 +1,18 @@
+{
+  "name": "tab_organize",
+  "version": "0.1.0",
+  "description": "Organize and manipulate large amounts of tabs at once",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bjorn3/firefox_tab_organize.git"
+  },
+  "author": "bjorn3 <bjorn3@users.noreply.github.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/bjorn3/firefox_tab_organize/issues"
+  },
+  "homepage": "https://github.com/bjorn3/firefox_tab_organize#readme",
+  "dependencies": {
+    "preact": "^10.4.7"
+  }
+}
