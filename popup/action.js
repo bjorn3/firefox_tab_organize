@@ -65,7 +65,7 @@ function Window(win) {
     if (title.endsWith(" - Firefox Developer Edition")) {
         title = title.substr(0, title.length - " - Firefox Developer Edition".length);
     }
-    win_els.push(h("summary", {}, title + (win.focused ? " (Active)" : "")));
+    win_els.push(h("summary", {}, title + (win.focused ? " (Active, " : "(") + win.tabs.length + ")"));
 
     let host_tabs = {};
     for (let tab of win.tabs) {
