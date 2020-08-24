@@ -19,12 +19,36 @@ async function reload_window_list() {
     let window_list = await window.browser.windows.getAll({ populate: true });
     console.log(window_list);
 
-    let win_els = [];
-    win_els.push(h("h2", {}, "Windows"));
-    for (let win of window_list) {
-        win_els.push(Window(win));
-    }
-    render(win_els, document.getElementById("windows"));
+    render(
+        [h("h2", {}, "Windows")].concat(window_list.map(Window)),
+        document.getElementById("windows")
+    );
+}
+
+function TabActions(tabs) {
+    return [
+        h("div", { classList: ["spacer"] }),
+        h("button", {
+            onclick: event_handler(function () {
+                return window.browser.tabs.discard(tabs.map((tab) => tab.id));
+            })
+        }, "Discard"),
+        h("button", {
+            onclick: event_handler(function () {
+                return Promise.all(tabs.map((tab) => window.browser.tabs.reload(tab.id)));
+            })
+        }, "Reload"),
+        h("button", {
+            onclick: event_handler(function () {
+                return window.browser.tabs.move(tabs.map((tab) => tab.id), { index: 0 })
+            })
+        }, "Move to begin"),
+        h("button", {
+            onclick: event_handler(function () {
+                return window.browser.tabs.move(tabs.map((tab) => tab.id), { index: -1 })
+            })
+        }, "Move to end"),
+    ];
 }
 
 function Window(win) {
@@ -59,28 +83,16 @@ function Window(win) {
 
 function TabGroup(name, tabs) {
     if (tabs.length > 1) {
-        let summary_inner_els = [];
-        summary_inner_els.push(name + " (" + tabs.length + ")");
-        summary_inner_els.push(h("div", { classList: ["spacer"] }));
-        summary_inner_els.push(h("button", {
-            onclick: event_handler(function () {
-                return window.browser.tabs.discard(tabs.map((tab) => tab.id));
-            })
-        }, "Discard"));
-        summary_inner_els.push(h("button", {
-            onclick: event_handler(function () {
-                return Promise.all(tabs.map((tab) => window.browser.tabs.reload(tab.id)));
-            })
-        }, "Reload"));
-        let summary_inner = h("div", {}, summary_inner_els);
-        let summary = h("summary", {}, summary_inner);
+        let summary = h(
+            "summary",
+            {},
+            h("div", {}, [
+                name + " (" + tabs.length + ")",
+                TabActions(tabs)
+            ])
+        );
 
-        let details_els = [summary];
-        for (let tab of tabs) {
-            details_els.push(Tab(tab));
-        }
-
-        return h("details", {}, details_els);
+        return h("details", {}, [summary].concat(tabs.map(Tab)));
     } else {
         return Tab(tabs[0]);
     }
@@ -92,17 +104,7 @@ function Tab(tab) {
         els.push(h("img", { src: tab.favIconUrl, width: 16, height: 16 }));
     }
     els.push(tab.url);
-    els.push(h("div", { classList: ["spacer"] }));
-    els.push(h("button", {
-        onclick: event_handler(function () {
-            return window.browser.tabs.discard(tab.id);
-        })
-    }, "Discard"));
-    els.push(h("button", {
-        onclick: event_handler(function () {
-            return window.browser.tabs.reload(tab.id);
-        })
-    }, "Reload"));
+    els.push(TabActions([tab]));
     return h("div", { id: "tab-" + tab.id, classList: ["tab"] }, els);
 }
 
