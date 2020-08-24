@@ -128,7 +128,13 @@ function Tab(tab) {
     }
     els.push(tab.url);
     els.push(TabActions([tab]));
-    return h("div", { id: "tab-" + tab.id, class: "tab" }, els);
+    return h("div", {
+        id: "tab-" + tab.id,
+        class: "tab",
+        onclick: event_handler(function () {
+            return window.browser.tabs.highlight({ windowId: tab.windowId, tabs: [tab.index] });
+        }),
+    }, els);
 }
 
 document.querySelector("#discard").onclick = event_handler(async function () {
