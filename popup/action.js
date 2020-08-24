@@ -61,7 +61,7 @@ function TabActions(tabs) {
         })),
     ];
     if (tabs.length == 1) {
-        actions.push(Button("Close", "times", event_handler(function() {
+        actions.push(Button("Close", "times", event_handler(function () {
             return window.browser.tabs.remove(tabs[0].id);
         })));
     }
@@ -91,7 +91,17 @@ function Window(win) {
 
     console.log(host_tabs);
 
+    let host_tabs_array = [];
+    let rest_tabs_array = [];
     for (let [host, tabs] of Object.entries(host_tabs).sort((a, b) => a[1].length < b[1].length)) {
+        if (tabs.length > 1) {
+            host_tabs_array.push([host, tabs]);
+        } else {
+            rest_tabs_array.push(tabs[0]);
+        }
+    }
+    win_els.push(TabGroup("<others>", rest_tabs_array));
+    for (let [host, tabs] of host_tabs_array) {
         win_els.push(TabGroup(host, tabs));
     }
 
@@ -99,20 +109,16 @@ function Window(win) {
 }
 
 function TabGroup(name, tabs) {
-    if (tabs.length > 1) {
-        let summary = h(
-            "summary",
-            {},
-            h("div", {}, [
-                name + " (" + tabs.length + ")",
-                TabActions(tabs)
-            ])
-        );
+    let summary = h(
+        "summary",
+        {},
+        h("div", {}, [
+            name + " (" + tabs.length + ")",
+            TabActions(tabs)
+        ])
+    );
 
-        return h("details", {}, [summary].concat(tabs.map(Tab)));
-    } else {
-        return Tab(tabs[0]);
-    }
+    return h("details", {}, [summary].concat(tabs.map(Tab)));
 }
 
 function Tab(tab) {
