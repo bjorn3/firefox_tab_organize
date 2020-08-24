@@ -20,7 +20,6 @@ function event_handler(handler) {
 
 async function reload_window_list() {
     let window_list = await window.browser.windows.getAll({ populate: true });
-    console.log(window_list);
 
     render(
         [h("h2", {}, "Windows")].concat(window_list.map(Window)),
@@ -88,8 +87,6 @@ function Window(win) {
     for (let host in host_tabs) {
         host_tabs[host] = host_tabs[host].sort((a, b) => a.url > b.url);
     }
-
-    console.log(host_tabs);
 
     let host_tabs_array = [];
     let rest_tabs_array = [];
