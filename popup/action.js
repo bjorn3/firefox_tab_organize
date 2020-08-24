@@ -107,7 +107,7 @@ async function reload_window_list() {
                     img.src = tab.favIconUrl;
                 }
 
-                div.innerHTML += tab.url;
+                div.appendChild(new Text(tab.url));
 
                 let spacer = document.createElement("div");
                 div.appendChild(spacer);
