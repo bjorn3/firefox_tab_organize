@@ -29,7 +29,11 @@ async function reload_window_list() {
 
 function Window(win) {
     let win_els = [];
-    win_els.push(h("summary", {}, win.title + (win.focused ? " (Active)" : "")));
+    let title = win.title;
+    if (title.endsWith(" - Firefox Developer Edition")) {
+        title = title.substr(0, title.length - " - Firefox Developer Edition".length);
+    }
+    win_els.push(h("summary", {}, title + (win.focused ? " (Active)" : "")));
 
     let host_tabs = {};
     for (let tab of win.tabs) {
