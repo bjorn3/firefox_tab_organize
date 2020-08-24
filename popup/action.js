@@ -25,33 +25,37 @@ async function reload_window_list() {
     );
 }
 
+function Button(title, icon, handler) {
+    return h(
+        "a",
+        {
+            onclick: function (e) {
+                // Prevent <details> element from toggling collapse state when clicking on a button
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                handler()
+            },
+            title: "Discard",
+        },
+        h("i", { class: "fas fa-" + icon }),
+    );
+}
+
 function TabActions(tabs) {
     return [
         h("div", { class: "spacer" }),
-        h("a", {
-            onclick: event_handler(function () {
-                return window.browser.tabs.discard(tabs.map((tab) => tab.id));
-            }),
-            title: "Discard",
-        },  h("i", { class: "fas fa-snowflake" })),
-        h("a", {
-            onclick: event_handler(function () {
-                return Promise.all(tabs.map((tab) => window.browser.tabs.reload(tab.id)));
-            }),
-            title: "Reload",
-        }, h("i", { class: "fas fa-redo" })),
-        h("a", {
-            onclick: event_handler(function () {
-                return window.browser.tabs.move(tabs.map((tab) => tab.id), { index: 0 })
-            }),
-            title: "Move to begin",
-        }, h("i", { class: "fas fa-arrow-left" })),
-        h("a", {
-            onclick: event_handler(function () {
-                return window.browser.tabs.move(tabs.map((tab) => tab.id), { index: -1 })
-            }),
-            title: "Move to end",
-        },  h("i", { class: "fas fa-arrow-right" })),
+        Button("Discard", "snowflake", event_handler(function () {
+            return window.browser.tabs.discard(tabs.map((tab) => tab.id));
+        })),
+        Button("Reload", "redo", event_handler(function () {
+            return Promise.all(tabs.map((tab) => window.browser.tabs.reload(tab.id)));
+        })),
+        Button("Move to begin", "arrow-left", event_handler(function () {
+            return window.browser.tabs.move(tabs.map((tab) => tab.id), { index: 0 })
+        })),
+        Button("Move to end", "arrow-right", event_handler(function () {
+            return window.browser.tabs.move(tabs.map((tab) => tab.id), { index: -1 })
+        })),
     ];
 }
 
