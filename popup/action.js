@@ -27,27 +27,31 @@ async function reload_window_list() {
 
 function TabActions(tabs) {
     return [
-        h("div", { classList: ["spacer"] }),
-        h("button", {
+        h("div", { class: "spacer" }),
+        h("a", {
             onclick: event_handler(function () {
                 return window.browser.tabs.discard(tabs.map((tab) => tab.id));
-            })
-        }, "Discard"),
-        h("button", {
+            }),
+            title: "Discard",
+        },  h("i", { class: "fas fa-snowflake" })),
+        h("a", {
             onclick: event_handler(function () {
                 return Promise.all(tabs.map((tab) => window.browser.tabs.reload(tab.id)));
-            })
-        }, "Reload"),
-        h("button", {
+            }),
+            title: "Reload",
+        }, h("i", { class: "fas fa-redo" })),
+        h("a", {
             onclick: event_handler(function () {
                 return window.browser.tabs.move(tabs.map((tab) => tab.id), { index: 0 })
-            })
-        }, "Move to begin"),
-        h("button", {
+            }),
+            title: "Move to begin",
+        }, h("i", { class: "fas fa-arrow-left" })),
+        h("a", {
             onclick: event_handler(function () {
                 return window.browser.tabs.move(tabs.map((tab) => tab.id), { index: -1 })
-            })
-        }, "Move to end"),
+            }),
+            title: "Move to end",
+        },  h("i", { class: "fas fa-arrow-right" })),
     ];
 }
 
@@ -78,7 +82,7 @@ function Window(win) {
         win_els.push(TabGroup(host, tabs));
     }
 
-    return h("details", { id: "window-" + win.id, classList: ["window"], open: win.focused }, win_els);
+    return h("details", { id: "window-" + win.id, class: "window", open: win.focused }, win_els);
 }
 
 function TabGroup(name, tabs) {
@@ -105,7 +109,7 @@ function Tab(tab) {
     }
     els.push(tab.url);
     els.push(TabActions([tab]));
-    return h("div", { id: "tab-" + tab.id, classList: ["tab"] }, els);
+    return h("div", { id: "tab-" + tab.id, class: "tab" }, els);
 }
 
 document.querySelector("#discard").onclick = event_handler(async function () {
