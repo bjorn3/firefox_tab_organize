@@ -2,6 +2,13 @@
 
 This is a firefox extension to organize and manipulate large amounts of tabs.
 
+## Installation
+
+First run `npm install` then go to `about:debugging` > This Firefox > Load Temporary Add-on and
+select `manifest.json`. You will need to do this every time you restart firefox, as unsigned add-ons
+can't be permanently installed unless you are on ESR or nightly and explicitly enable it in
+`about:config`.
+
 ## Features
 
 * Discard all loaded tabs. They will be loaded again once you switch back to them.
