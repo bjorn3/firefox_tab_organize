@@ -14,6 +14,6 @@
   "homepage": "https://github.com/bjorn3/firefox_tab_organize#readme",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",
-    "preact": "^10.4.7"
+    "preact": "^10.6.4"
   }
 }
