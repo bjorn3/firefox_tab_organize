@@ -37,7 +37,7 @@ function Button(title, icon, handler) {
                 e.stopImmediatePropagation();
                 handler()
             },
-            title: "Discard",
+            title,
         },
         h("i", { class: "fas fa-" + icon }),
     );
