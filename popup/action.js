@@ -1,4 +1,4 @@
-import { h, Component, render } from "../node_modules/preact/dist/preact.mjs";
+import { h, render } from "../node_modules/preact/dist/preact.mjs";
 
 reload_window_list();
 window.browser.windows.onCreated.addListener(event_handler(reload_window_list));
