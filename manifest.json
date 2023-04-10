@@ -11,11 +11,11 @@
     }
   },
 
-	"permissions": ["tabs"],
+  "permissions": ["tabs"],
 
   "browser_action": {
     "default_icon": "node_modules/@fortawesome/fontawesome-free/svgs/solid/sitemap.svg",
-		"default_title": "Organize tabs",
-		"default_popup": "popup/action.html"
+    "default_title": "Organize tabs",
+    "default_popup": "popup/action.html"
   }
 }
