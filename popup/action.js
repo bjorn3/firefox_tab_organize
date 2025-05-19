@@ -102,13 +102,13 @@ function Window(win) {
         win_els.push(TabGroup(host, tabs));
     }
 
-    return h("details", { id: "window-" + win.id, class: "window", open: win.focused }, win_els);
+    return h("details", { class: "window", open: win.focused, key: "window-" + win.id.toString() }, win_els);
 }
 
 function TabGroup(name, tabs) {
     let summary = h(
         "summary",
-        {},
+        { key: "tab-group-" + name },
         h("div", {}, [
             name + " (" + tabs.length + ")",
             TabActions(tabs)
@@ -126,11 +126,11 @@ function Tab(tab) {
     els.push(tab.url);
     els.push(TabActions([tab]));
     return h("div", {
-        id: "tab-" + tab.id,
         class: "tab",
         onclick: event_handler(function () {
             return window.browser.tabs.highlight({ windowId: tab.windowId, tabs: [tab.index] });
         }),
+        key: "tab-" + tab.id.toString(),
     }, els);
 }
 
